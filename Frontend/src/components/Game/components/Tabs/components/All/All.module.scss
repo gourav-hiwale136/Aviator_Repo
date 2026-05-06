@@ -1,0 +1,145 @@
+.wrapper {
+  width: 100%;
+  height: 500px;
+  background: #05090f;
+  border-radius: 18px;
+  overflow: hidden;
+  color: #c8d0da;
+  font-family: Inter, Arial, sans-serif;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+}
+
+.resultCard {
+  background: linear-gradient(180deg, #090d14 0%, #070b11 100%);
+  margin: 0;
+  padding: 14px 16px 10px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.resultLabel {
+  font-size: 14px;
+  color: #d7dde7;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.resultValue {
+  font-size: 42px;
+  line-height: 1;
+  font-weight: 800;
+  color: #1ea7ff;
+  letter-spacing: -0.03em;
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 0.5fr 1fr;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: #7f8a98;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.rows {
+  flex: 1;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+  }
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 0.5fr 1fr;
+  align-items: center;
+  padding: 8px 12px;
+  min-height: 52px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  background: rgba(0, 0, 0, 0.18);
+
+  &:nth-child(even) {
+    background: rgba(255, 255, 255, 0.015);
+  }
+}
+
+.playerCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.08);
+
+  span {
+    transform: translateY(1px);
+  }
+}
+
+.red {
+  background: radial-gradient(circle at 30% 30%, #ff6a6a, #8f1111 70%);
+}
+
+.green {
+  background: radial-gradient(circle at 30% 30%, #9cff92, #2d6e23 70%);
+}
+
+.silver {
+  background: radial-gradient(circle at 30% 30%, #e8eef6, #596674 70%);
+}
+
+.orange {
+  background: radial-gradient(circle at 30% 30%, #ffbf73, #b65500 70%);
+}
+
+.purple {
+  background: radial-gradient(circle at 30% 30%, #e6a9ff, #5f2a77 70%);
+}
+
+.playerName {
+  font-size: 20px;
+  color: #e9eef5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.betCell,
+.multiplierCell,
+.winCell {
+  font-size: 16px;
+  color: #c2cad4;
+}
+
+.betCell,
+.winCell {
+  text-align: left;
+}
+
+.multiplierCell {
+  text-align: center;
+  color: #9ba8b7;
+}
+
+.winCell {
+  text-align: right;
+}

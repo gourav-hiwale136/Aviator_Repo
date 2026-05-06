@@ -1,0 +1,237 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap");
+
+.appContainer {
+  font-family: "Orbitron", monospace;
+  min-height: 100%;
+  position: relative;
+  color: #fff;
+}
+
+.mainContent {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  min-height: 100%;
+}
+
+
+
+.balanceContainer {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 8px 28px;
+  margin-bottom: 14px;
+  backdrop-filter: blur(12px);
+}
+
+.balanceLabel {
+  font-size: 0.65rem;
+  color: #9e9e9e;
+  letter-spacing: 0.2em;
+}
+
+.balance {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #69f0ae;
+}
+
+.historyBar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.historyItem {
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.crashed {
+  background: rgba(255, 82, 82, 0.2);
+  border: 1px solid rgba(255, 82, 82, 0.5);
+  color: #ff5252;
+}
+
+.normal {
+  background: rgba(105, 240, 174, 0.2);
+  border: 1px solid rgba(105, 240, 174, 0.5);
+  color: #69f0ae;
+}
+
+.noHistory {
+  font-size: 0.65rem;
+  color: #616161;
+  letter-spacing: 0.15em;
+}
+
+.tab_game_section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  @media all and (max-width:1250px){
+    flex-direction: column;
+  align-items: center;
+
+  }
+}
+.gameCanvas {
+  width: 753px;
+  max-width: 95vw;
+  height: 380px;
+  background: rgba(0, 0, 10, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(16px);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+  @media all and (max-width:1250px){
+width: 100%;
+max-width: 100%;
+  }
+}
+
+.controls {
+  background: rgba(0, 0, 10, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 20px 28px;
+  backdrop-filter: blur(16px);
+  width: 700px;
+  max-width: 95vw;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+}
+
+.betSelector {
+  margin-bottom: 16px;
+}
+
+.betLabel {
+  font-size: 0.65rem;
+  color: #9e9e9e;
+  letter-spacing: 0.2em;
+  margin-bottom: 8px;
+}
+
+.betOptions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.betButton {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-family: Orbitron, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.08);
+  color: #9e9e9e;
+}
+
+.selectedBet {
+  background: linear-gradient(135deg, #ffab40, #ff6d00);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(255, 150, 0, 0.4);
+  transform: scale(1.05);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.customBet {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.customBetLabel {
+  font-size: 0.65rem;
+  color: #9e9e9e;
+  letter-spacing: 0.2em;
+}
+
+.customBetInput {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: #fff;
+  font-family: Orbitron, sans-serif;
+  font-size: 0.85rem;
+  width: 120px;
+  outline: none;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 12px;
+}
+
+.startButton {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-family: Orbitron, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  background: linear-gradient(135deg, #1565c0, #0288d1);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(2, 136, 209, 0.4);
+}
+
+.disabledButton {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  cursor: not-allowed;
+  font-family: Orbitron, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  background: rgba(255, 255, 255, 0.05);
+  color: #424242;
+}
+
+.cashOutButton {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-family: Orbitron, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  background: linear-gradient(135deg, #2e7d32, #66bb6a);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(102, 187, 106, 0.5);
+}
+
+.instructions {
+  margin-top: 14px;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.1em;
+  text-align: center;
+  font-family: Rajdhani, sans-serif;
+}

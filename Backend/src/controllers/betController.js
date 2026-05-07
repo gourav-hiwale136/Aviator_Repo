@@ -3,11 +3,17 @@ import User from "../models/User.js";
 import { getGame } from "../services/gameInstance.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
+
 export const placeBet = asyncHandler(async (req, res) => {
   const { userId, amount } = req.body;
 
-  if (!userId || !amount || amount <= 0) {
-    return res.status(400).json({ message: "Invalid input" });
+  
+  if (!userId || userId === "undefined") {
+    return res.status(400).json({ message: "Invalid userId" });
+  }
+
+  if (!amount || amount <= 0) {
+    return res.status(400).json({ message: "Invalid amount" });
   }
 
   const game = getGame();
@@ -43,13 +49,13 @@ export const placeBet = asyncHandler(async (req, res) => {
     status: "PENDING",
   });
 
-  // ✅ store in memory
+  
   game.activeBets.set(userId.toString(), {
     betId: bet._id,
     amount,
   });
 
-  // ✅ realtime emit
+  
   game.io.emit("bet:placed", {
     userId,
     amount,
@@ -61,8 +67,13 @@ export const placeBet = asyncHandler(async (req, res) => {
   });
 });
 
+
 export const cashout = asyncHandler(async (req, res) => {
   const { userId } = req.body;
+
+  if (!userId || userId === "undefined") {
+    return res.status(400).json({ message: "Invalid userId" });
+  }
 
   const game = getGame();
 
@@ -84,12 +95,16 @@ export const cashout = asyncHandler(async (req, res) => {
     });
   }
 
-  // remove immediately (anti-cheat)
+  
   game.activeBets.delete(userId.toString());
 
   const multiplier = game.getMultiplier();
 
   const bet = await Bet.findById(activeBet.betId);
+
+  if (!bet) {
+    return res.status(404).json({ message: "Bet not found" });
+  }
 
   bet.status = "WON";
   bet.cashoutMultiplier = multiplier;
@@ -101,7 +116,6 @@ export const cashout = asyncHandler(async (req, res) => {
   user.balance += bet.winAmount;
   await user.save();
 
-  // realtime emit
   game.io.emit("bet:cashedout", {
     userId,
     multiplier,

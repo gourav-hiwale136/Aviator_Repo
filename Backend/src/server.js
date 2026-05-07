@@ -46,7 +46,7 @@ io.on("connection", (socket) => {
     socketId: socket.id,
   });
 
-  //Remove on disconnect
+  
   socket.on("disconnect", () => {
     console.log("User disconnected:", socket.id);
 
@@ -80,12 +80,12 @@ app.use(
 
 app.use(express.json());
 
-// Routes
+
 app.use("/api/bet", betRouter);
 app.use("/api/user", userRouter);
 app.use("api/round", roundRouter);
 
-// Error handler
+
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;

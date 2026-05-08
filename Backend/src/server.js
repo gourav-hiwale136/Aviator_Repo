@@ -6,7 +6,7 @@ import http from "http";
 import { Server } from "socket.io";
 
 import betRouter from "./routes/betRoutes.js";
-import userRouter from "./routes/userRoutes.js";
+import userRouter from "./routes/authRoutes.js";
 import errorHandler from "./middlewares/errorMiddleware.js";
 import { initGame } from "./services/gameInstance.js";
 import roundRouter from "./routes/roundRoutes.js";
@@ -64,7 +64,7 @@ app.use(
       const allowed = [
         "http://localhost:5173",
         "http://192.168.0.6:5173",
-        "http://localhost:3000",
+        "http://localhost:8000",
         "http://localhost:8080",
       ];
 
@@ -83,7 +83,7 @@ app.use(express.json());
 
 app.use("/api/bet", betRouter);
 app.use("/api/user", userRouter);
-app.use("api/round", roundRouter);
+app.use("/api/round", roundRouter);
 
 
 app.use(errorHandler);

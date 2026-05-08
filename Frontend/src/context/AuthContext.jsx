@@ -41,7 +41,7 @@ const AuthProvider = ({ children }) => {
   const login = useCallback((nextUser, token) => {
     if (token) {
       // localStorage.setItem('hybridtoken', token);
-      localStorage.setItem('Aviatortoken', token);
+      localStorage.setItem('token', token);
     }
     if (nextUser) {
       localStorage.setItem('userLogin', JSON.stringify({ isLoggedIn: true, ...nextUser }));
@@ -59,8 +59,8 @@ const AuthProvider = ({ children }) => {
     queryClient.removeQueries({ queryKey: ['current-user'] });
     queryClient.clear();
     localStorage.removeItem('userLogin');
-    localStorage.removeItem('Aviatortoken');
-    // localStorage.removeItem('token');
+    // localStorage.removeItem('Aviatortoken');
+    localStorage.removeItem('token');
     Object.keys(localStorage).forEach((key) => {
       if (key.startsWith('privy') || key.startsWith('base-acc-sdk')) {
         localStorage.removeItem(key);

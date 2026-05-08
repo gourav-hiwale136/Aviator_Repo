@@ -13,7 +13,7 @@ class GameService {
     this.hasCrashed = false;
     this.status = "BETTING";
 
-    this.activeBets = new Map();
+    this.activeBets = new Map(); // key = userId (string)
 
     this.isRoundActive = false;
   }
@@ -30,7 +30,7 @@ class GameService {
     return this.status;
   }
 
- 
+  
   generateCrashPoint() {
     const r = Math.random();
 
@@ -62,6 +62,7 @@ class GameService {
 
     this.io.emit("round:betting", {
       roundId: this.roundId,
+      multiplier: this.multiplier, 
     });
   }
 
@@ -82,7 +83,7 @@ class GameService {
     });
   }
 
- 
+  
   async startRound() {
     if (this.isRoundActive) return;
 
@@ -95,37 +96,55 @@ class GameService {
     setTimeout(() => {
       this.lockBetting();
       this.runGame();
-    }, 8000);
+    }, 8000); // betting time
   }
 
   
-  async runGame() {
-    const startTime = Date.now();
+async runGame() {
+  const ROUND_DURATION = 20000; // 20 seconds total
+  const startTime = Date.now();
 
-    this.interval = setInterval(async () => {
-      const elapsed = Date.now() - startTime;
+  const intervalMs = 50;
 
-      // smoother growth
-      this.multiplier = Number((this.multiplier + 0.01).toFixed(2));
+  this.interval = setInterval(async () => {
+    const elapsed = Date.now() - startTime;
 
-      this.io.emit("multiplier:update", {
-        roundId: this.roundId,
-        multiplier: this.multiplier,
-      });
+    // 🛑 FORCE END AT 20s
+    if (elapsed >= ROUND_DURATION) {
+      clearInterval(this.interval);
+      this.interval = null;
 
-      // crash logic
-      if (
-        !this.hasCrashed &&
-        elapsed >= 5000 &&
-        this.multiplier >= this.crashPoint
-      ) {
-        clearInterval(this.interval);
+      // force crash if not already crashed
+      if (!this.hasCrashed) {
+        this.crashPoint = this.multiplier;
         await this.settleRound();
       }
-    }, 100);
-  }
+      return;
+    }
 
-  
+    const seconds = elapsed / 1000;
+
+    // 🚀 smooth growth (fast but controlled)
+    this.multiplier = Number(
+      (Math.exp(0.22 * seconds)).toFixed(2)
+    );
+
+    this.io.emit("multiplier:update", {
+      roundId: this.roundId,
+      multiplier: this.multiplier,
+    });
+
+    // 💥 crash condition (still allowed before 20s)
+    if (!this.hasCrashed && this.multiplier >= this.crashPoint) {
+      clearInterval(this.interval);
+      this.interval = null;
+      await this.settleRound();
+      return;
+    }
+
+  }, intervalMs);
+}
+  // Crash + settle
   async settleRound() {
     this.hasCrashed = true;
     this.status = "CRASHED";
@@ -144,14 +163,18 @@ class GameService {
       crashPoint: this.crashPoint,
     });
 
-  
+    // mark all remaining bets as LOST
     for (const [userId, betData] of this.activeBets.entries()) {
-      await Bet.findByIdAndUpdate(betData.betId, {
-        status: "LOST",
-      });
+      const bet = await Bet.findByIdAndUpdate(
+        betData.betId,
+        { status: "LOST" },
+        { returnDocument: "after" }
+      );
 
       this.io.emit("bet:lost", {
-        userId,
+        userId: userId.toString(),
+        roundId: this.roundId,
+        amount: bet?.amount || 0,
       });
     }
 
@@ -159,6 +182,7 @@ class GameService {
 
     this.isRoundActive = false;
 
+    //  next round
     setTimeout(() => {
       this.startRound();
     }, 3000);

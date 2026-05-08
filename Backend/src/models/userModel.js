@@ -7,11 +7,21 @@ const userSchema = new mongoose.Schema({
     trim: true
   },
 
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+
+  password: {
+    type: String,
+    required: true
+  },
+
   balance: {
     type: Number,
     default: 1000
   }
-  
 
 }, { timestamps: true });
 

@@ -42,10 +42,11 @@ const AviatorGame = () => {
 
   const startGame = useCallback(async() => {
     if (balance < bet) return;
-     const userId = "69f98337e7741b090089ea73"
+    //  const userId = "69f98337e7741b090089ea73"
+    const userId = localStorage.getItem("userId");
 
   api.post("/bet/place", {
-    userId,
+    // userId,
     amount: bet
   }).catch(err => console.error(err));
     setBalance((b) => b - bet);
@@ -98,11 +99,12 @@ const AviatorGame = () => {
       if (phase !== "flying") {
     return;
   }
-  const userId = "69f98337e7741b090089ea73"
+  // const userId = "69f98337e7741b090089ea73"
+  const userId = localStorage.getItem("userId");
 
   api.post("/bet/cashout", {
-    userId,
-    amount: bet
+    // userId,
+    // amount: bet
   }).catch(err => console.error(err));
 
   const winnings = Math.floor(bet * multiplierRef.current);  

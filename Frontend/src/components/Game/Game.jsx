@@ -179,7 +179,7 @@ const AviatorGame = () => {
           return (Math.atan2(dy, dx) * 180) / Math.PI;
         })()
       : 0;
-  // console.log('trail', trail)
+//   // console.log('trail', trail)
   return (
     // <div style={{ fontFamily: "'Orbitron', monospace", minHeight: "100vh", position: "relative", color: "#fff" }}>
     //   <SolarSystem />

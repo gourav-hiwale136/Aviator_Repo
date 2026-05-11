@@ -109,7 +109,7 @@ async runGame() {
   this.interval = setInterval(async () => {
     const elapsed = Date.now() - startTime;
 
-    // 🛑 FORCE END AT 20s
+    
     if (elapsed >= ROUND_DURATION) {
       clearInterval(this.interval);
       this.interval = null;
@@ -124,7 +124,7 @@ async runGame() {
 
     const seconds = elapsed / 1000;
 
-    // 🚀 smooth growth (fast but controlled)
+    
     this.multiplier = Number(
       (Math.exp(0.22 * seconds)).toFixed(2)
     );
@@ -134,7 +134,7 @@ async runGame() {
       multiplier: this.multiplier,
     });
 
-    // 💥 crash condition (still allowed before 20s)
+    // crash condition (still allowed before 20s)
     if (!this.hasCrashed && this.multiplier >= this.crashPoint) {
       clearInterval(this.interval);
       this.interval = null;

@@ -13,7 +13,7 @@ class GameService {
     this.hasCrashed = false;
     this.status = "BETTING";
 
-    this.activeBets = new Map(); // key = userId (string)
+    this.activeBets = new Map(); // key = userId (string) 
 
     this.isRoundActive = false;
   }

@@ -10,28 +10,26 @@ import betRouter from "./routes/betRoutes.js";
 import userRouter from "./routes/authRoutes.js";
 import roundRouter from "./routes/roundRoutes.js";
 import errorHandler from "./middlewares/errorMiddleware.js";
-import { initGame } from "./services/gameInstance.js";
+import { initGame } from "./services/gameEngine.js";
 
 dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
 
-// ✅ Allowed origins (single source of truth)
+//  Allowed origins (single source of truth)
 const allowedOrigins = [
   "http://localhost:5173",
   "http://192.168.0.6:5173",
-  "http://localhost:3000",
-  "http://localhost:8080",
 ];
 
-// ✅ Connect DB safely
+//  Connect DB safely
 const startServer = async () => {
   try {
     await connectDB(process.env.MONGO_URL);
     console.log("MongoDB connected");
 
-    // ✅ Socket.IO setup
+    //  Socket.IO setup
     const io = new Server(server, {
       cors: {
         origin: allowedOrigins,
@@ -39,13 +37,13 @@ const startServer = async () => {
       },
     });
 
-    // ✅ Track REAL users (not just sockets)
+    //  Track REAL users (not just sockets)
     const onlineUsers = new Set();
 
     io.on("connection", (socket) => {
       console.log("User connected:", socket.id);
 
-      // ✅ Frontend should send userId after login
+      //  Frontend should send userId after login
       socket.on("user:join", (userId) => {
         if (userId) {
           socket.userId = userId;
@@ -70,7 +68,7 @@ const startServer = async () => {
       });
     });
 
-    // ✅ Middlewares
+    //  Middlewares
     app.use(helmet());
     app.use(express.json());
 
@@ -78,15 +76,15 @@ const startServer = async () => {
       cors({
         origin: allowedOrigins,
         credentials: true,
-      })
+      }),
     );
 
-    // ✅ Routes
+    //  Routes
     app.use("/api/bet", betRouter);
     app.use("/api/user", userRouter);
     app.use("/api/round", roundRouter);
 
-    // ✅ Error middleware (last)
+    //  Error middleware (last)
     app.use(errorHandler);
 
     const PORT = process.env.PORT || 8000;
@@ -94,7 +92,7 @@ const startServer = async () => {
     server.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
 
-      // ✅ Start game loop AFTER server + socket ready
+      //  Start game loop AFTER server + socket ready
       initGame(io);
     });
   } catch (error) {
@@ -103,5 +101,5 @@ const startServer = async () => {
   }
 };
 
-// ✅ Start everything
+//  Start everything
 startServer();

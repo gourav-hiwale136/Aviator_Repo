@@ -1,4 +1,4 @@
-import GameService from "./GameService.js";
+import GameService from "./gameService.js";
 
 let game = null;
 

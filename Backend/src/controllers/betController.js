@@ -1,6 +1,6 @@
 import Bet from "../models/Bet.js";
 import User from "../models/userModel.js";
-import { getGame } from "../services/gameInstance.js";
+import { getGame } from "../services/gameEngine.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
 export const placeBet = asyncHandler(async (req, res) => {
@@ -26,10 +26,12 @@ export const placeBet = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: "User not found" });
   }
 
-  //  single bet per round check 
+  //  single bet per round check
   const existingBet = game.activeBets.get(userId.toString());
   if (existingBet) {
-    return res.status(400).json({ message: "You already placed a bet this round" });
+    return res
+      .status(400)
+      .json({ message: "You already placed a bet this round" });
   }
 
   if (user.balance < amount) {
@@ -65,7 +67,6 @@ export const placeBet = asyncHandler(async (req, res) => {
     balance: user.balance,
   });
 });
-
 
 export const cashout = asyncHandler(async (req, res) => {
   const userId = req.user._id;

@@ -84,7 +84,7 @@ const startServer = async () => {
     app.use("/api/user", userRouter);
     app.use("/api/round", roundRouter);
 
-    //  Error middleware (last)
+    //  Error middleware (Detecting Error Globally in App)
     app.use(errorHandler);
 
     const PORT = process.env.PORT || 8000;

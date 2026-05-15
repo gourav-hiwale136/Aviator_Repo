@@ -37,7 +37,7 @@ const startServer = async () => {
       },
     });
 
-    //  Track REAL users (not just sockets)
+    //  Track REAL users (Not just sockets)
     const onlineUsers = new Set();
 
     io.on("connection", (socket) => {
